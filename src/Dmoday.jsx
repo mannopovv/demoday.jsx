@@ -12,14 +12,15 @@ import {
     Building2, Home as HomeIcon, PlusCircle, Sun, Moon, Search,
     SlidersHorizontal, Heart, MapPin, GraduationCap, CheckCircle2,
     ArrowLeft, Trash2, Phone, Sparkles, Filter, X, RotateCcw,
-    AlertTriangle, Languages, FileQuestion
+    AlertTriangle, Languages, ChevronRight, Compass, ShieldCheck
 } from 'lucide-react';
 
-
+// Mock API o'rnatish
 const api = axios.create({ baseURL: '/api' });
-const mock = new MockAdapter(api, { delayResponse: 500 });
-const LOCAL_STORAGE_KEY = 'talabauy_listings_student_db';
+const mock = new MockAdapter(api, { delayResponse: 300 });
+const LOCAL_STORAGE_KEY = 'talabauy_listings_db_v4';
 
+// 1. Kengaytirilgan va boyitilgan uylar bazasi
 const initialListings = [
     {
         id: '1',
@@ -28,11 +29,11 @@ const initialListings = [
         price: 80,
         university: 'TATU',
         address: 'Yunusobod tumani, Bodomzor metro yaqinida',
-        distance: '300 metr (5 min piyoda)',
+        distance: '300 m (5 min piyoda)',
         phone: '+998 90 123 45 67',
         rooms: 2,
         verified: true,
-        description: 'Wi-Fi, muzlatgich, kir yuvish mashinasi bor. Faqat intizomli talabalar uchun.',
+        description: 'Wi-Fi, muzlatgich, kir yuvish mashinasi bor. Xonadon sharoiti a\'lo. Faqat intizomli va ozoda talabalar uchun.',
         image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80',
         createdAt: '2026-01-01T10:00:00.000Z',
     },
@@ -43,11 +44,11 @@ const initialListings = [
         price: 220,
         university: "O'zMU",
         address: "Olmazor tumani, Beruniy metro yo'nalishida",
-        distance: '600 metr',
+        distance: '600 m (8 min piyoda)',
         phone: '+998 93 987 65 43',
         rooms: 3,
         verified: true,
-        description: 'Yangi remontdan chiqqan xonadon. Kombi tizimi o\'rnatilgan.',
+        description: 'Yangi remontdan chiqqan xonadon. Kombi isitish tizimi, smart TV va yevro-remont qilingan.',
         image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80',
         createdAt: '2026-01-02T10:00:00.000Z',
     },
@@ -58,16 +59,92 @@ const initialListings = [
         price: 95,
         university: 'TDIU',
         address: 'Mirobod tumani, Oybek metro yaqinida',
-        distance: '400 metr',
+        distance: '400 m (6 min piyoda)',
         phone: '+998 97 555 11 22',
         rooms: 2,
         verified: true,
-        description: "O'qishga mas'uliyatli qizlarni taklif qilamiz.",
+        description: "O'qishga mas'uliyatli qizlarni taklif qilamiz. Tinch, toza va barcha qulayliklarga ega.",
         image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80',
         createdAt: '2026-01-03T10:00:00.000Z',
+    },
+    {
+        id: '4',
+        title: 'WIUT yaqinida lyuks 1 xonali studiya',
+        type: 'Xonadon',
+        price: 310,
+        university: 'WIUT',
+        address: 'Yashnobod tumani, Amir Temur maydoni yaqinida',
+        distance: '200 m (3 min piyoda)',
+        phone: '+998 94 444 00 11',
+        rooms: 1,
+        verified: true,
+        description: 'Zamonaviy dizayndagi studiya kvartira. Talaba yoki yosh mutassis uchun juda qulay.',
+        image: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=800&q=80',
+        createdAt: '2026-01-04T10:00:00.000Z',
+    },
+    {
+        id: '5',
+        title: "TDTU (Politeh) binosidan 5 minutlik uy",
+        type: 'Xonadosh',
+        price: 75,
+        university: 'TDTU',
+        address: 'Olmazor tumani, Talabalar shaharchasi',
+        distance: '250 m',
+        phone: '+998 99 111 22 33',
+        rooms: 3,
+        verified: false,
+        description: 'Boshqa ogil bolalar yoniga 1 kishi kerak. Sharoiti yaxshi, internet bor.',
+        image: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=800&q=80',
+        createdAt: '2026-01-05T10:00:00.000Z',
+    },
+    {
+        id: '6',
+        title: "INHA Universiteti qarshisidagi novostroyka",
+        type: 'Xonadon',
+        price: 280,
+        university: 'INHA',
+        address: 'Mirzo Ulugbek tumani, Buyuk Ipak Yoli',
+        distance: '150 m',
+        phone: '+998 91 777 88 99',
+        rooms: 2,
+        verified: true,
+        description: 'Yangi binoda joylashgan, lifty bor, xavfsiz hudud va tinch hovli.',
+        image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80',
+        createdAt: '2026-01-06T10:00:00.000Z',
+    },
+    {
+        id: '7',
+        title: "TPTI talaba qizlari uchun 2 xonali uy",
+        type: 'Xonadosh',
+        price: 85,
+        university: 'TPTI',
+        address: 'Shayxontohur tumani, Toshmi yaqinida',
+        distance: '500 m',
+        phone: '+998 95 333 44 55',
+        rooms: 2,
+        verified: true,
+        description: 'Toshmi oquvchilariga juda qulay joy. Uyda hamma texnika bor.',
+        image: 'https://images.unsplash.com/photo-1540518614846-7ede433c517a?auto=format&fit=crop&w=800&q=80',
+        createdAt: '2026-01-07T10:00:00.000Z',
+    },
+    {
+        id: '8',
+        title: "TATU shaharchasida 1 xonali alohida uy",
+        type: 'Xonadon',
+        price: 180,
+        university: 'TATU',
+        address: 'Yunusobod 4-mavze',
+        distance: '450 m',
+        phone: '+998 90 999 00 11',
+        rooms: 1,
+        verified: false,
+        description: 'Alohida yashashni xohlaydigan talabaga mo\'ljallangan ixcham uy.',
+        image: 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=800&q=80',
+        createdAt: '2026-01-08T10:00:00.000Z',
     }
 ];
 
+// LocalStorage bilan ishlash
 function getListingsFromStorage() {
     const data = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (!data) {
@@ -81,9 +158,14 @@ function saveListingsToStorage(listings) {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(listings));
 }
 
-mock.onGet('/listings').reply(() => {
+// Mock API liniyalari
+mock.onGet('/listings').reply(() => [200, getListingsFromStorage()]);
+
+mock.onGet(/\/listings\/\w+/).reply((config) => {
+    const id = config.url.split('/').pop();
     const listings = getListingsFromStorage();
-    return [200, listings];
+    const listing = listings.find((item) => item.id === id);
+    return listing ? [200, listing] : [404, { message: 'Topilmadi' }];
 });
 
 mock.onPost('/listings').reply((config) => {
@@ -107,54 +189,47 @@ mock.onDelete(/\/listings\/\w+/).reply((config) => {
     return [200, { success: true }];
 });
 
-
 const queryClient = new QueryClient();
 
+// React Query Hooks
 function useFetchListings() {
     return useQuery({
         queryKey: ['listings'],
-        queryFn: async () => {
-            const response = await api.get('/listings');
-            return response.data;
-        }
+        queryFn: async () => (await api.get('/listings')).data
+    });
+}
+
+function useFetchSingleListing(id) {
+    return useQuery({
+        queryKey: ['listing', id],
+        queryFn: async () => (await api.get(`/listings/${id}`)).data
     });
 }
 
 function useCreateListing() {
     const client = useQueryClient();
     return useMutation({
-        mutationFn: async (newListing) => {
-            const response = await api.post('/listings', newListing);
-            return response.data;
-        },
+        mutationFn: async (newListing) => (await api.post('/listings', newListing)).data,
         onSuccess: () => {
             client.invalidateQueries({ queryKey: ['listings'] });
             toast.success("E'lon muvaffaqiyatli saqlandi!");
         },
-        onError: () => {
-            toast.error("Xatolik: e'lonni saqlab bo'lmadi!");
-        }
+        onError: () => toast.error("Xatolik yuz berdi!")
     });
 }
 
 function useRemoveListing() {
     const client = useQueryClient();
     return useMutation({
-        mutationFn: async (id) => {
-            const response = await api.delete(`/listings/${id}`);
-            return response.data;
-        },
+        mutationFn: async (id) => (await api.delete(`/listings/${id}`)).data,
         onSuccess: () => {
             client.invalidateQueries({ queryKey: ['listings'] });
-            toast.success("E'lon muvaffaqiyatli o'chirildi!");
-        },
-        onError: () => {
-            toast.error("Xatolik: e'lonni o'chirib bo'lmadi!");
+            toast.success("E'lon o'chirildi!");
         }
     });
 }
 
-
+// Tarjima so'zlari
 const translations = {
     uz: {
         home: 'Bosh sahifa',
@@ -162,7 +237,7 @@ const translations = {
         addListing: "E'lon berish",
         heroTitle: 'Talabalar uchun Shinam va Qulay Uylar',
         heroSub: "O'zingizga mos keladigan hamyonbop xonadon va ishonchli xonadoshlarni osongina toping.",
-        searchPlaceholder: 'Metro, tuman yoki oliygoh nomini kiriting...',
+        searchPlaceholder: 'Metro, tumani yoki oliygoh nomini kiriting...',
         filters: 'Moslashtirish filtri',
         reset: 'Tozalash',
         university: 'Oliygoh',
@@ -180,8 +255,6 @@ const translations = {
         details: 'Batafsil',
         call: "Qo'ng'iroq qilish",
         monthly: 'oyiga',
-        notFoundTitle: 'Sahifa topilmadi',
-        backHome: 'Bosh sahifaga qaytish',
         addTitle: "Yangi e'lon qo'shish",
         titleLabel: "E'lon sarlavhasi",
         priceLabel: "Narxi ($)",
@@ -189,7 +262,8 @@ const translations = {
         addressLabel: "Manzil",
         descLabel: "Tavsif",
         submitBtn: "E'lonni joylash",
-        deleteBtn: "E'lonni o'chirish"
+        deleteBtn: "E'lonni o'chirish",
+        locationOnMap: "Joylashuv xaritasi"
     },
     en: {
         home: 'Home',
@@ -215,8 +289,6 @@ const translations = {
         details: 'Details',
         call: 'Call Now',
         monthly: 'per month',
-        notFoundTitle: 'Page not found',
-        backHome: 'Back to Home',
         addTitle: 'Add New Listing',
         titleLabel: 'Listing Title',
         priceLabel: 'Price ($)',
@@ -224,7 +296,8 @@ const translations = {
         addressLabel: 'Address',
         descLabel: 'Description',
         submitBtn: 'Submit Listing',
-        deleteBtn: 'Delete Listing'
+        deleteBtn: 'Delete Listing',
+        locationOnMap: "Location Map"
     },
     ru: {
         home: 'Главная',
@@ -250,8 +323,6 @@ const translations = {
         details: 'Подробнее',
         call: 'Позвонить',
         monthly: 'в месяц',
-        notFoundTitle: 'Страница не найдена',
-        backHome: 'На главную',
         addTitle: 'Добавить объявление',
         titleLabel: 'Заголовок',
         priceLabel: 'Цена ($)',
@@ -259,10 +330,12 @@ const translations = {
         addressLabel: 'Адрес',
         descLabel: 'Описание',
         submitBtn: 'Опубликовать',
-        deleteBtn: 'Удалить объявление'
+        deleteBtn: 'Удалить объявление',
+        locationOnMap: "Карта расположения"
     }
 };
 
+// Zustand Store
 const useStore = create(
     persist(
         (set, get) => ({
@@ -307,13 +380,13 @@ const useStore = create(
                 maxPrice: 500
             })
         }),
-        { name: 'talabauy_student_app_state' }
+        { name: 'talabauy_student_app_state_v4' }
     )
 );
 
 const universitiesList = ['Barchasi', 'TATU', "O'zMU", 'TDTU', 'TDIU', 'WIUT', 'INHA', 'TPTI'];
 
-
+// Top Navigation
 function Navbar() {
     const { darkMode, toggleDarkMode, lang, setLang, favorites, t } = useStore();
 
@@ -332,10 +405,10 @@ function Navbar() {
     };
 
     return (
-        <header className="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-                <Link to="/" className="flex items-center gap-3">
-                    <div className="p-2.5 bg-sky-600 rounded-2xl text-white shadow-md">
+                <Link to="/" className="flex items-center gap-3 group">
+                    <div className="p-2.5 bg-gradient-to-tr from-sky-600 to-indigo-600 rounded-2xl text-white shadow-md group-hover:scale-105 transition-transform">
                         <Building2 className="w-5 h-5" />
                     </div>
                     <div>
@@ -358,7 +431,7 @@ function Navbar() {
                     </NavLink>
 
                     <div className="flex items-center gap-2 pl-2 border-l border-slate-200 dark:border-slate-800">
-                        <button onClick={changeLang} className="px-2.5 py-1 text-xs font-bold uppercase rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center gap-1">
+                        <button onClick={changeLang} className="px-2.5 py-1.5 text-xs font-bold uppercase rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center gap-1 hover:border-sky-500 transition">
                             <Languages className="w-3.5 h-3.5 text-sky-600" /> {lang}
                         </button>
                         <button onClick={toggleDarkMode} className="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition">
@@ -371,11 +444,11 @@ function Navbar() {
     );
 }
 
-
+// Mobile Pastki Menyusi
 function MobileBottomNav() {
     const { favorites, t } = useStore();
     return (
-        <div className="sm:hidden fixed bottom-3 left-4 right-4 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl p-2 shadow-xl flex justify-around items-center">
+        <div className="sm:hidden fixed bottom-3 left-4 right-4 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl p-2 shadow-xl flex justify-around items-center">
             <NavLink to="/" className={({ isActive }) => `flex flex-col items-center gap-1 p-2 text-[10px] font-bold rounded-xl ${isActive ? 'text-sky-600 bg-sky-50 dark:bg-sky-950/50' : 'text-slate-500'}`}>
                 <HomeIcon className="w-5 h-5" /> <span>{t('home')}</span>
             </NavLink>
@@ -390,7 +463,7 @@ function MobileBottomNav() {
     );
 }
 
-
+// Uy Kartasi
 function ListingCard({ item }) {
     const { favorites, toggleFavorite, t } = useStore();
     const isFav = favorites.includes(item.id);
@@ -398,25 +471,25 @@ function ListingCard({ item }) {
     return (
         <motion.div
             layout
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 15 }}
-            className="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700/80 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700/80 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
         >
             <div>
-                <div className="relative h-48 bg-slate-100 dark:bg-slate-700 overflow-hidden">
-                    <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                <div className="relative h-52 bg-slate-100 dark:bg-slate-700 overflow-hidden">
+                    <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute top-3 left-3 flex gap-2">
-                        <span className="px-3 py-1 text-xs font-bold rounded-full bg-sky-600/90 text-white backdrop-blur-md">{item.type}</span>
+                        <span className="px-3 py-1 text-xs font-bold rounded-full bg-sky-600/90 text-white backdrop-blur-md shadow-md">{item.type}</span>
                         {item.verified && (
-                            <span className="px-3 py-1 text-xs font-bold rounded-full bg-emerald-500/90 text-white backdrop-blur-md flex items-center gap-1">
+                            <span className="px-3 py-1 text-xs font-bold rounded-full bg-emerald-500/90 text-white backdrop-blur-md flex items-center gap-1 shadow-md">
                                 <CheckCircle2 className="w-3.5 h-3.5" /> Tasdiqlangan
                             </span>
                         )}
                     </div>
                     <button
                         onClick={() => toggleFavorite(item.id)}
-                        className="absolute top-3 right-3 p-2.5 rounded-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-md"
+                        className="absolute top-3 right-3 p-2.5 rounded-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-md hover:scale-110 transition-transform"
                     >
                         <Heart className={`w-4 h-4 ${isFav ? 'fill-rose-500 text-rose-500' : 'text-slate-600 dark:text-slate-200'}`} />
                     </button>
@@ -426,7 +499,7 @@ function ListingCard({ item }) {
                         <span className="flex items-center gap-1 truncate"><GraduationCap className="w-4 h-4 shrink-0" /> {item.university} ({item.distance || 'Yaqinida'})</span>
                         <span className="px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px]">{item.rooms} xona</span>
                     </div>
-                    <h3 className="text-base font-extrabold text-slate-800 dark:text-slate-100 line-clamp-1 mb-2">{item.title}</h3>
+                    <h3 className="text-base font-extrabold text-slate-800 dark:text-slate-100 line-clamp-1 mb-2 group-hover:text-sky-600 transition-colors">{item.title}</h3>
                     <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1 mb-4">
                         <MapPin className="w-3.5 h-3.5 shrink-0 text-slate-400" /> <span className="truncate">{item.address}</span>
                     </p>
@@ -437,19 +510,19 @@ function ListingCard({ item }) {
                     <span className="text-2xl font-black text-slate-900 dark:text-white">${item.price}</span>
                     <span className="text-xs text-slate-400 font-medium"> / {t('monthly')}</span>
                 </div>
-                <Link to={`/listing/${item.id}`} className="px-4 py-2 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 rounded-xl transition shadow-md shadow-sky-500/20">
-                    {t('details')}
+                <Link to={`/listing/${item.id}`} className="px-4 py-2 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 rounded-xl transition shadow-md shadow-sky-500/20 flex items-center gap-1">
+                    {t('details')} <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
             </div>
         </motion.div>
     );
 }
 
-
+// Skeleton yuklanish animatsiyasi
 function SkeletonLoader() {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
+            {[1, 2, 3, 4, 5, 6].map((i) => (
                 <div key={i} className="bg-white dark:bg-slate-800 rounded-3xl p-4 border border-slate-200 dark:border-slate-700 animate-pulse">
                     <div className="h-48 bg-slate-200 dark:bg-slate-700 rounded-2xl mb-4" />
                     <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded-lg w-1/3 mb-2" />
@@ -461,19 +534,7 @@ function SkeletonLoader() {
     );
 }
 
-function ErrorState({ onRetry }) {
-    return (
-        <div className="text-center py-16 bg-white dark:bg-slate-800 rounded-3xl border border-rose-200 dark:border-rose-900/60">
-            <div className="w-14 h-14 rounded-2xl bg-rose-100 dark:bg-rose-950/50 text-rose-600 flex items-center justify-center mx-auto mb-4">
-                <AlertTriangle className="w-7 h-7" />
-            </div>
-            <h3 className="text-base font-bold text-slate-700 dark:text-slate-200">Nimadir xato ketdi</h3>
-            <p className="text-xs text-slate-400 mt-1 mb-4">Ma'lumotlarni yuklab bo'lmadi.</p>
-            <button onClick={onRetry} className="px-4 py-2 bg-sky-600 text-white rounded-xl text-xs font-bold hover:bg-sky-700 transition">Qayta urinish</button>
-        </div>
-    );
-}
-
+// Asosiy Sahifa
 function Home() {
     const { data: listings = [], isLoading, isError, refetch } = useFetchListings();
     const {
@@ -482,6 +543,7 @@ function Home() {
         maxPrice, setMaxPrice, resetFilters
     } = useStore();
 
+    // Filtrlash mantiqi
     const filteredListings = listings
         .filter((item) => {
             const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || item.address.toLowerCase().includes(searchQuery.toLowerCase());
@@ -499,15 +561,15 @@ function Home() {
 
     return (
         <div className="min-h-screen pb-28 sm:pb-20 bg-slate-50 dark:bg-slate-900 transition-colors">
-            
-            <section className="bg-gradient-to-br from-sky-600 via-indigo-600 to-slate-900 text-white py-16 px-4 text-center shadow-lg">
-                <div className="max-w-3xl mx-auto">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-sky-200 text-xs font-semibold mb-4">
-                        <Sparkles className="w-4 h-4 text-amber-300" /> Tashkent Student Housing Portal
+            {/* Banner bo'limi */}
+            <section className="bg-gradient-to-br from-sky-600 via-indigo-600 to-slate-900 text-white py-16 px-4 text-center shadow-lg relative overflow-hidden">
+                <div className="max-w-3xl mx-auto relative z-10">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-sky-200 text-xs font-semibold mb-4 backdrop-blur-md">
+                        <Sparkles className="w-4 h-4 text-amber-300" /> Toshkent Talabalar Portal platformasi
                     </div>
                     <h1 className="text-3xl sm:text-5xl font-black tracking-tight mb-4 leading-tight">{t('heroTitle')}</h1>
                     <p className="text-slate-200 text-xs sm:text-sm max-w-xl mx-auto mb-8 leading-relaxed">{t('heroSub')}</p>
-                    <div className="max-w-xl mx-auto bg-white dark:bg-slate-800 p-2 rounded-2xl shadow-xl flex items-center border border-slate-200 dark:border-slate-700">
+                    <div className="max-w-xl mx-auto bg-white dark:bg-slate-800 p-2 rounded-2xl shadow-2xl flex items-center border border-slate-200 dark:border-slate-700">
                         <Search className="w-5 h-5 text-slate-400 ml-3 shrink-0" />
                         <input
                             type="text"
@@ -525,9 +587,8 @@ function Home() {
                 </div>
             </section>
 
-            
+            {/* Filtr va Ro'yxat */}
             <main className="max-w-7xl mx-auto px-4 sm:px-6 -mt-6 relative z-10">
-                
                 <div className="bg-white dark:bg-slate-800 rounded-3xl p-5 border border-slate-200 dark:border-slate-700 mb-8 shadow-xl">
                     <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2 text-slate-800 dark:text-slate-100 font-extrabold text-sm">
@@ -540,13 +601,13 @@ function Home() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                         <div>
                             <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5">{t('university')}</label>
-                            <select value={selectedUniversity} onChange={(e) => setSelectedUniversity(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold">
+                            <select value={selectedUniversity} onChange={(e) => setSelectedUniversity(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:ring-2 focus:ring-sky-500 outline-none">
                                 {universitiesList.map((uni) => <option key={uni} value={uni}>{uni}</option>)}
                             </select>
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5">{t('type')}</label>
-                            <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold">
+                            <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:ring-2 focus:ring-sky-500 outline-none">
                                 <option value="Barchasi">{t('all')}</option>
                                 <option value="Xonadosh">{t('roommate')}</option>
                                 <option value="Xonadon">{t('apartment')}</option>
@@ -554,7 +615,7 @@ function Home() {
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5">{t('rooms')}</label>
-                            <select value={selectedRooms} onChange={(e) => setSelectedRooms(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold">
+                            <select value={selectedRooms} onChange={(e) => setSelectedRooms(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:ring-2 focus:ring-sky-500 outline-none">
                                 <option value="Barchasi">{t('all')}</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -563,7 +624,7 @@ function Home() {
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5">{t('sort')}</label>
-                            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold">
+                            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:ring-2 focus:ring-sky-500 outline-none">
                                 <option value="default">{t('newest')}</option>
                                 <option value="price-low">{t('priceLow')}</option>
                                 <option value="price-high">{t('priceHigh')}</option>
@@ -579,11 +640,15 @@ function Home() {
                     </div>
                 </div>
 
-               
+                {/* Uylar ro'yxati */}
                 {isLoading ? (
                     <SkeletonLoader />
                 ) : isError ? (
-                    <ErrorState onRetry={refetch} />
+                    <div className="text-center py-10 bg-white dark:bg-slate-800 rounded-2xl">
+                        <AlertTriangle className="w-10 h-10 text-rose-500 mx-auto mb-2" />
+                        <p className="text-xs font-bold">Xatolik yuz berdi!</p>
+                        <button onClick={() => refetch()} className="mt-2 text-xs text-sky-600 font-bold underline">Qayta urinish</button>
+                    </div>
                 ) : filteredListings.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <AnimatePresence>
@@ -601,6 +666,103 @@ function Home() {
     );
 }
 
+// Batafsil Ko'rish Sahifasi
+function ListingDetail() {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const { data: item, isLoading, isError } = useFetchSingleListing(id);
+    const { mutate: deleteListing } = useRemoveListing();
+    const { favorites, toggleFavorite, t } = useStore();
+
+    if (isLoading) return <div className="p-10 max-w-5xl mx-auto"><SkeletonLoader /></div>;
+    if (isError || !item) return <div className="p-10 text-center text-rose-500 font-bold">Uy ma'lumoti topilmadi.</div>;
+
+    const isFav = favorites.includes(item.id);
+    const mapUrl = `https://maps.google.com/maps?q=${encodeURIComponent(item.address + ' Tashkent')}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+
+    const handleDelete = () => {
+        if (window.confirm("Rostdan ham ushbu e'lonni o'chirmoqchimisiz?")) {
+            deleteListing(item.id, { onSuccess: () => navigate('/') });
+        }
+    };
+
+    return (
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-8 px-4 sm:px-6 pb-28 sm:pb-12 transition-colors">
+            <div className="max-w-5xl mx-auto">
+                <button onClick={() => navigate(-1)} className="inline-flex items-center gap-2 text-xs font-bold text-sky-600 hover:text-sky-700 mb-6 bg-white dark:bg-slate-800 px-4 py-2 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700">
+                    <ArrowLeft className="w-4 h-4" /> Ortga qaytish
+                </button>
+
+                <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-xl overflow-hidden">
+                    <div className="relative h-72 sm:h-96 bg-slate-900">
+                        <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                        <div className="absolute top-4 left-4 flex gap-2">
+                            <span className="px-4 py-1.5 text-xs font-bold rounded-full bg-sky-600 text-white backdrop-blur-md shadow-lg">{item.type}</span>
+                        </div>
+                        <div className="absolute top-4 right-4 flex gap-2">
+                            <button onClick={() => toggleFavorite(item.id)} className="p-3 rounded-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-lg">
+                                <Heart className={`w-5 h-5 ${isFav ? 'fill-rose-500 text-rose-500' : 'text-slate-700 dark:text-slate-200'}`} />
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="p-6 sm:p-8">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-100 dark:border-slate-700">
+                            <div>
+                                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-sky-600 dark:text-sky-400 mb-2">
+                                    <GraduationCap className="w-4 h-4" /> {item.university} yaqinida ({item.distance})
+                                </span>
+                                <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">{item.title}</h1>
+                                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1.5 mt-2">
+                                    <MapPin className="w-4 h-4 text-slate-400" /> {item.address}
+                                </p>
+                            </div>
+                            <div className="text-left md:text-right">
+                                <span className="text-3xl font-black text-slate-900 dark:text-white">${item.price}</span>
+                                <span className="text-xs text-slate-400 font-medium"> / {t('monthly')}</span>
+                                <a href={`tel:${item.phone}`} className="mt-3 flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-2xl shadow-lg shadow-emerald-600/20 transition">
+                                    <Phone className="w-4 h-4" /> {t('call')}
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="py-6 border-b border-slate-100 dark:border-slate-700">
+                            <h3 className="text-sm font-extrabold text-slate-800 dark:text-slate-200 mb-2">{t('descLabel')}</h3>
+                            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{item.description}</p>
+                        </div>
+
+                        {/* Google Embed Map */}
+                        <div className="py-6">
+                            <h3 className="text-sm font-extrabold text-slate-800 dark:text-slate-200 mb-4 flex items-center gap-2">
+                                <Compass className="w-4 h-4 text-sky-600" /> {t('locationOnMap')}
+                            </h3>
+                            <div className="h-72 w-full rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-md">
+                                <iframe
+                                    title="Google Map"
+                                    width="100%"
+                                    height="100%"
+                                    frameBorder="0"
+                                    scrolling="no"
+                                    marginHeight="0"
+                                    marginWidth="0"
+                                    src={mapUrl}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="pt-4 flex justify-end">
+                            <button onClick={handleDelete} className="flex items-center gap-2 px-4 py-2 bg-rose-50 text-rose-600 hover:bg-rose-100 dark:bg-rose-950/40 dark:text-rose-400 text-xs font-bold rounded-xl transition">
+                                <Trash2 className="w-4 h-4" /> {t('deleteBtn')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// E'lon Berish Sahifasi
 function AddListing() {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const { mutate: createListing, isPending } = useCreateListing();
@@ -613,7 +775,7 @@ function AddListing() {
             price: Number(formData.price),
             rooms: Number(formData.rooms),
             verified: true,
-            distance: '500 metr',
+            distance: '400 m',
             image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80'
         };
 
@@ -642,7 +804,7 @@ function AddListing() {
                             {...register('title', { required: "Sarlavha kiritilishi shart!" })}
                             className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500"
                         />
-                        {errors.title && <span className="text-rose-500 text-[10px] font-bold mt-1 block">{errors.title.message}</span>}
+                        {errors.title && <span className="text-[10px] text-rose-500 font-bold">{errors.title.message}</span>}
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -650,20 +812,16 @@ function AddListing() {
                             <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">{t('priceLabel')}</label>
                             <input
                                 type="number"
-                                {...register('price', { required: "Narx kiritilishi shart!", min: 1 })}
+                                {...register('price', { required: true })}
                                 className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500"
                             />
-                            {errors.price && <span className="text-rose-500 text-[10px] font-bold mt-1 block">{errors.price.message}</span>}
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">{t('rooms')}</label>
-                            <select
-                                {...register('rooms')}
-                                className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500"
-                            >
-                                <option value="1">1 xona</option>
-                                <option value="2">2 xona</option>
-                                <option value="3">3 xona</option>
+                            <select {...register('rooms')} className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
                             </select>
                         </div>
                     </div>
@@ -671,21 +829,13 @@ function AddListing() {
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">{t('university')}</label>
-                            <select
-                                {...register('university')}
-                                className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500"
-                            >
-                                {universitiesList.filter(u => u !== 'Barchasi').map((uni) => (
-                                    <option key={uni} value={uni}>{uni}</option>
-                                ))}
+                            <select {...register('university')} className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                {universitiesList.filter(u => u !== 'Barchasi').map((u) => <option key={u} value={u}>{u}</option>)}
                             </select>
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">{t('type')}</label>
-                            <select
-                                {...register('type')}
-                                className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500"
-                            >
+                            <select {...register('type')} className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500">
                                 <option value="Xonadosh">{t('roommate')}</option>
                                 <option value="Xonadon">{t('apartment')}</option>
                             </select>
@@ -697,20 +847,18 @@ function AddListing() {
                         <input
                             type="text"
                             placeholder="+998 90 123 45 67"
-                            {...register('phone', { required: "Telefon kiritilishi shart!" })}
+                            {...register('phone', { required: true })}
                             className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500"
                         />
-                        {errors.phone && <span className="text-rose-500 text-[10px] font-bold mt-1 block">{errors.phone.message}</span>}
                     </div>
 
                     <div>
                         <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">{t('addressLabel')}</label>
                         <input
                             type="text"
-                            {...register('address', { required: "Manzil kiritilishi shart!" })}
+                            {...register('address', { required: true })}
                             className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500"
                         />
-                        {errors.address && <span className="text-rose-500 text-[10px] font-bold mt-1 block">{errors.address.message}</span>}
                     </div>
 
                     <div>
@@ -725,145 +873,60 @@ function AddListing() {
                     <button
                         type="submit"
                         disabled={isPending}
-                        className="w-full py-3 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-bold transition shadow-lg shadow-sky-500/20 disabled:opacity-50"
+                        className="w-full py-3 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl shadow-lg transition"
                     >
-                        {isPending ? "Saqlanmoqda..." : t('submitBtn')}
+                        {isPending ? 'Saqlanmoqda...' : t('submitBtn')}
                     </button>
                 </form>
             </div>
         </div>
     );
 }
-function ListingDetail() {
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const { t } = useStore();
-    const { data: listings = [], isLoading, isError, refetch } = useFetchListings();
-    const { mutate: removeListing, isPending: isDeleting } = useRemoveListing();
 
-    if (isLoading) return <div className="max-w-4xl mx-auto py-10 px-4"><SkeletonLoader /></div>;
-    if (isError) return <div className="max-w-4xl mx-auto py-10 px-4"><ErrorState onRetry={refetch} /></div>;
-
-    const item = listings.find((l) => l.id === id);
-
-    if (!item) {
-        return (
-            <div className="min-h-screen p-10 text-center dark:bg-slate-900 text-slate-800 dark:text-white">
-                <h2 className="text-xl font-bold mb-4">E'lon topilmadi!</h2>
-                <Link to="/" className="text-sky-600 underline">Bosh sahifaga qaytish</Link>
-            </div>
-        );
-    }
-
-    const handleDelete = () => {
-        if (window.confirm("Rostdan ham ushbu e'lonni o'chirmoqchimisiz?")) {
-            removeListing(id, {
-                onSuccess: () => navigate('/')
-            });
-        }
-    };
-
-    return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-10 px-4 sm:px-6 transition-colors">
-            <div className="max-w-3xl mx-auto bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-200 dark:border-slate-700 shadow-xl">
-                <button onClick={() => navigate(-1)} className="flex items-center gap-1 text-xs font-bold text-sky-600 mb-6">
-                    <ArrowLeft className="w-4 h-4" /> Ortga qaytish
-                </button>
-
-                <div className="relative h-72 rounded-2xl overflow-hidden mb-6 bg-slate-100">
-                    <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
-                    <span className="absolute top-4 left-4 px-3 py-1 bg-sky-600 text-white font-bold text-xs rounded-full">{item.type}</span>
-                </div>
-
-                <div className="flex items-center justify-between mb-4">
-                    <span className="px-3 py-1 bg-sky-50 dark:bg-sky-950 text-sky-600 font-bold text-xs rounded-lg">{item.university} ({item.distance})</span>
-                    <span className="text-2xl font-black text-slate-900 dark:text-white">${item.price} <span className="text-xs font-normal text-slate-400">/ {t('monthly')}</span></span>
-                </div>
-
-                <h1 className="text-2xl font-black text-slate-800 dark:text-white mb-2">{item.title}</h1>
-                <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1 mb-6">
-                    <MapPin className="w-4 h-4 text-slate-400" /> {item.address}
-                </p>
-
-                <div className="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-700/60 mb-6">
-                    <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Tavsif va sharoitlar</h3>
-                    <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{item.description}</p>
-                </div>
-
-                <div className="flex gap-4">
-                    <a
-                        href={`tel:${item.phone}`}
-                        className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold text-center flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-500/20"
-                    >
-                        <Phone className="w-4 h-4" /> {item.phone} {t('call')}
-                    </a>
-                    <button
-                        onClick={handleDelete}
-                        disabled={isDeleting}
-                        className="px-5 py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold flex items-center gap-2 transition shadow-lg shadow-rose-500/20 disabled:opacity-50"
-                    >
-                        <Trash2 className="w-4 h-4" /> {isDeleting ? "..." : t('deleteBtn')}
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-}
+// Saralangan Uylar Sahifasi
 function Favorites() {
-    const { favorites, t } = useStore();
     const { data: listings = [] } = useFetchListings();
-    const favoriteListings = listings.filter((item) => favorites.includes(item.id));
+    const { favorites, t } = useStore();
+
+    const favListings = listings.filter((item) => favorites.includes(item.id));
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-10 px-4 sm:px-6 transition-colors">
             <div className="max-w-7xl mx-auto">
-                <h1 className="text-2xl font-black text-slate-800 dark:text-white mb-6">{t('favorites')}</h1>
-                {favoriteListings.length > 0 ? (
+                <h1 className="text-2xl font-black text-slate-800 dark:text-white mb-6 flex items-center gap-2">
+                    <Heart className="w-6 h-6 text-rose-500 fill-rose-500" /> {t('favorites')}
+                </h1>
+                {favListings.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {favoriteListings.map((item) => (
-                            <ListingCard key={item.id} item={item} />
-                        ))}
+                        {favListings.map((item) => <ListingCard key={item.id} item={item} />)}
                     </div>
                 ) : (
                     <div className="text-center py-16 bg-white dark:bg-slate-800 rounded-3xl border border-dashed border-slate-300 dark:border-slate-700">
-                        <Heart className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-                        <h3 className="text-base font-bold text-slate-700 dark:text-slate-300">Saralangan e'lonlar mavjud emas</h3>
+                        <Heart className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+                        <h3 className="text-base font-bold text-slate-600 dark:text-slate-400">Hozircha saralangan uylar yo'q</h3>
                     </div>
                 )}
             </div>
         </div>
     );
 }
-function NotFound() {
-    const { t } = useStore();
-    return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col items-center justify-center p-4 text-center transition-colors">
-            <div className="w-16 h-16 rounded-3xl bg-sky-100 dark:bg-sky-950 text-sky-600 flex items-center justify-center mb-4">
-                <FileQuestion className="w-8 h-8" />
-            </div>
-            <h1 className="text-4xl font-black text-slate-800 dark:text-white mb-2">404</h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">{t('notFoundTitle')}</p>
-            <Link to="/" className="px-5 py-2.5 bg-sky-600 text-white rounded-xl text-xs font-bold hover:bg-sky-700 transition">
-                {t('backHome')}
-            </Link>
-        </div>
-    );
-}
+
+// Asosiy ilova
 export default function App() {
     return (
         <QueryClientProvider client={queryClient}>
             <Router>
-                <div className="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans transition-colors">
-                    <Toaster position="top-right" />
+                <div className="min-h-screen bg-slate-50 dark:bg-slate-900 font-sans antialiased text-slate-800 dark:text-slate-100 transition-colors">
                     <Navbar />
                     <Routes>
                         <Route path="/" element={<Home />} />
+                        <Route path="/listing/:id" element={<ListingDetail />} />
                         <Route path="/add" element={<AddListing />} />
                         <Route path="/favorites" element={<Favorites />} />
-                        <Route path="/listing/:id" element={<ListingDetail />} />
-                        <Route path="*" element={<NotFound />} />
+                        <Route path="*" element={<div className="p-10 text-center font-bold">Sahifa topilmadi</div>} />
                     </Routes>
                     <MobileBottomNav />
+                    <Toaster position="bottom-right" />
                 </div>
             </Router>
         </QueryClientProvider>
