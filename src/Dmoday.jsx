@@ -15,12 +15,12 @@ import {
     AlertTriangle, Languages, ChevronRight, Compass, ShieldCheck
 } from 'lucide-react';
 
-// Mock API o'rnatish
+
 const api = axios.create({ baseURL: '/api' });
 const mock = new MockAdapter(api, { delayResponse: 300 });
 const LOCAL_STORAGE_KEY = 'talabauy_listings_db_v4';
 
-// 1. Kengaytirilgan va boyitilgan uylar bazasi
+
 const initialListings = [
     {
         id: '1',
@@ -144,7 +144,7 @@ const initialListings = [
     }
 ];
 
-// LocalStorage bilan ishlash
+
 function getListingsFromStorage() {
     const data = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (!data) {
@@ -158,7 +158,7 @@ function saveListingsToStorage(listings) {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(listings));
 }
 
-// Mock API liniyalari
+
 mock.onGet('/listings').reply(() => [200, getListingsFromStorage()]);
 
 mock.onGet(/\/listings\/\w+/).reply((config) => {
@@ -335,7 +335,6 @@ const translations = {
     }
 };
 
-// Zustand Store
 const useStore = create(
     persist(
         (set, get) => ({
@@ -386,7 +385,6 @@ const useStore = create(
 
 const universitiesList = ['Barchasi', 'TATU', "O'zMU", 'TDTU', 'TDIU', 'WIUT', 'INHA', 'TPTI'];
 
-// Top Navigation
 function Navbar() {
     const { darkMode, toggleDarkMode, lang, setLang, favorites, t } = useStore();
 
@@ -444,7 +442,7 @@ function Navbar() {
     );
 }
 
-// Mobile Pastki Menyusi
+
 function MobileBottomNav() {
     const { favorites, t } = useStore();
     return (
@@ -463,7 +461,7 @@ function MobileBottomNav() {
     );
 }
 
-// Uy Kartasi
+
 function ListingCard({ item }) {
     const { favorites, toggleFavorite, t } = useStore();
     const isFav = favorites.includes(item.id);
@@ -518,7 +516,7 @@ function ListingCard({ item }) {
     );
 }
 
-// Skeleton yuklanish animatsiyasi
+
 function SkeletonLoader() {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -534,7 +532,6 @@ function SkeletonLoader() {
     );
 }
 
-// Asosiy Sahifa
 function Home() {
     const { data: listings = [], isLoading, isError, refetch } = useFetchListings();
     const {
@@ -543,7 +540,6 @@ function Home() {
         maxPrice, setMaxPrice, resetFilters
     } = useStore();
 
-    // Filtrlash mantiqi
     const filteredListings = listings
         .filter((item) => {
             const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || item.address.toLowerCase().includes(searchQuery.toLowerCase());
@@ -561,7 +557,7 @@ function Home() {
 
     return (
         <div className="min-h-screen pb-28 sm:pb-20 bg-slate-50 dark:bg-slate-900 transition-colors">
-            {/* Banner bo'limi */}
+
             <section className="bg-gradient-to-br from-sky-600 via-indigo-600 to-slate-900 text-white py-16 px-4 text-center shadow-lg relative overflow-hidden">
                 <div className="max-w-3xl mx-auto relative z-10">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-sky-200 text-xs font-semibold mb-4 backdrop-blur-md">
@@ -587,7 +583,7 @@ function Home() {
                 </div>
             </section>
 
-            {/* Filtr va Ro'yxat */}
+
             <main className="max-w-7xl mx-auto px-4 sm:px-6 -mt-6 relative z-10">
                 <div className="bg-white dark:bg-slate-800 rounded-3xl p-5 border border-slate-200 dark:border-slate-700 mb-8 shadow-xl">
                     <div className="flex items-center justify-between mb-4">
@@ -640,7 +636,7 @@ function Home() {
                     </div>
                 </div>
 
-                {/* Uylar ro'yxati */}
+
                 {isLoading ? (
                     <SkeletonLoader />
                 ) : isError ? (
@@ -666,7 +662,7 @@ function Home() {
     );
 }
 
-// Batafsil Ko'rish Sahifasi
+
 function ListingDetail() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -731,7 +727,6 @@ function ListingDetail() {
                             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{item.description}</p>
                         </div>
 
-                        {/* Google Embed Map */}
                         <div className="py-6">
                             <h3 className="text-sm font-extrabold text-slate-800 dark:text-slate-200 mb-4 flex items-center gap-2">
                                 <Compass className="w-4 h-4 text-sky-600" /> {t('locationOnMap')}
@@ -762,7 +757,7 @@ function ListingDetail() {
     );
 }
 
-// E'lon Berish Sahifasi
+
 function AddListing() {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const { mutate: createListing, isPending } = useCreateListing();
@@ -883,7 +878,7 @@ function AddListing() {
     );
 }
 
-// Saralangan Uylar Sahifasi
+
 function Favorites() {
     const { data: listings = [] } = useFetchListings();
     const { favorites, t } = useStore();
@@ -911,7 +906,7 @@ function Favorites() {
     );
 }
 
-// Asosiy ilova
+
 export default function App() {
     return (
         <QueryClientProvider client={queryClient}>

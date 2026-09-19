@@ -9,15 +9,18 @@ import { QueryClient, QueryClientProvider, useQuery, useMutation, useQueryClient
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import {
-  Building2, Home as HomeIcon, PlusCircle, Sun, Moon, Search,
+  Home as HomeIcon, PlusCircle, Sun, Moon, Search,
   SlidersHorizontal, Heart, MapPin, GraduationCap, CheckCircle2,
-  ArrowLeft, Trash2, Phone, Sparkles, Filter, X, RotateCcw,
-  AlertTriangle, Languages, ChevronRight, Compass, ShieldCheck
+  ArrowLeft, Trash2, Phone, Filter, X, RotateCcw,
+  AlertTriangle, Languages, ChevronRight, Compass, Lock, LogOut,
+  Eye, EyeOff
 } from 'lucide-react';
+
 
 const api = axios.create({ baseURL: '/api' });
 const mock = new MockAdapter(api, { delayResponse: 300 });
 const LOCAL_STORAGE_KEY = 'talabauy_listings_db_v4';
+
 
 const initialListings = [
   {
@@ -139,306 +142,6 @@ const initialListings = [
     description: 'Alohida yashashni xohlaydigan talabaga mo\'ljallangan ixcham uy.',
     image: 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=800&q=80',
     createdAt: '2026-01-08T10:00:00.000Z',
-  },
-  {
-    id: '9',
-    title: "Milliy Universitet (O'zMU) yonida 3 xonali xonadon",
-    type: 'Xonadon',
-    price: 240,
-    university: "O'zMU",
-    address: 'Almazor tumani, Chilonzor 19-kvartal',
-    distance: '350 m (5 min piyoda)',
-    phone: '+998 90 222 33 44',
-    rooms: 3,
-    verified: true,
-    description: 'Keng va yoritilgan xonalar, balkon va oshxona jihozlangan. Oilaviy talabalar uchun ham mos.',
-    image: 'https://images.unsplash.com/photo-1560184897-ae75f418493e?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-09T10:00:00.000Z',
-  },
-  {
-    id: '10',
-    title: 'TDIU talabalar shaharchasi yaqinida arzon xona',
-    type: 'Xonadosh',
-    price: 65,
-    university: 'TDIU',
-    address: 'Mirobod tumani, Shahriston ko\'chasi',
-    distance: '700 m (10 min piyoda)',
-    phone: '+998 97 111 33 55',
-    rooms: 2,
-    verified: false,
-    description: 'Talabalar uchun juda hamyonbop narx. Umumiy oshxona va yuvinish xonasi mavjud.',
-    image: 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-10T10:00:00.000Z',
-  },
-  {
-    id: '11',
-    title: 'WIUT talabalari uchun 2 kishilik xona',
-    type: 'Xonadosh',
-    price: 110,
-    university: 'WIUT',
-    address: 'Yashnobod tumani, Yangi Shahar',
-    distance: '300 m',
-    phone: '+998 94 555 66 77',
-    rooms: 2,
-    verified: true,
-    description: 'Zamonaviy binoda joylashgan, konditsioner va issiq suv doimiy mavjud.',
-    image: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-11T10:00:00.000Z',
-  },
-  {
-    id: '12',
-    title: "INHA yaqinida 1 xonali kichik uy",
-    type: 'Xonadon',
-    price: 150,
-    university: 'INHA',
-    address: 'Mirzo Ulugbek tumani, Qorasuv',
-    distance: '400 m',
-    phone: '+998 91 222 44 66',
-    rooms: 1,
-    verified: true,
-    description: 'Yolg\'iz yashamoqchi bo\'lganlar uchun ideal, barcha kommunal xizmatlar ishlaydi.',
-    image: 'https://images.unsplash.com/photo-1502672023488-70e25813eb80?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-12T10:00:00.000Z',
-  },
-  {
-    id: '13',
-    title: "TPTI (Toshmi) qarshisida qulay xonadon",
-    type: 'Xonadon',
-    price: 195,
-    university: 'TPTI',
-    address: 'Shayxontohur tumani, Chorsu yaqinida',
-    distance: '350 m',
-    phone: '+998 95 777 22 11',
-    rooms: 2,
-    verified: true,
-    description: 'Markazga yaqin, transport qatnovi qulay. Yangi mebel bilan jihozlangan.',
-    image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-13T10:00:00.000Z',
-  },
-  {
-    id: '14',
-    title: "TATU talabalariga mo'ljallangan 3 kishilik xona",
-    type: 'Xonadosh',
-    price: 70,
-    university: 'TATU',
-    address: 'Yunusobod tumani, Bodomzor',
-    distance: '500 m',
-    phone: '+998 90 333 55 77',
-    rooms: 3,
-    verified: false,
-    description: 'Faqat yigitlar uchun, arzon narxda joy. O\'qishga yaqin va tinch muhit.',
-    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-14T10:00:00.000Z',
-  },
-  {
-    id: '15',
-    title: "TDTU (Politeh) yonida yangi qurilgan xonadon",
-    type: 'Xonadon',
-    price: 260,
-    university: 'TDTU',
-    address: 'Olmazor tumani, Politexnika ko\'chasi',
-    distance: '200 m (3 min piyoda)',
-    phone: '+998 99 444 77 88',
-    rooms: 2,
-    verified: true,
-    description: 'Yangi binoda, lift va xavfsizlik xizmati mavjud. Universitetga eng yaqin variant.',
-    image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-15T10:00:00.000Z',
-  },
-  {
-    id: '16',
-    title: "O'zMU talaba qizlari uchun sheriklik",
-    type: 'Xonadosh',
-    price: 90,
-    university: "O'zMU",
-    address: 'Olmazor tumani, Beruniy',
-    distance: '450 m',
-    phone: '+998 93 111 88 99',
-    rooms: 2,
-    verified: true,
-    description: 'Toza va xavfsiz uy, faqat qizlar uchun. Kirish tizimi kodli eshik bilan himoyalangan.',
-    image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-16T10:00:00.000Z',
-  },
-  {
-    id: '17',
-    title: "WIUT qarshisida lyuks 2 xonali xonadon",
-    type: 'Xonadon',
-    price: 350,
-    university: 'WIUT',
-    address: 'Yashnobod tumani, Amir Temur ko\'chasi',
-    distance: '100 m (2 min piyoda)',
-    phone: '+998 94 666 11 22',
-    rooms: 2,
-    verified: true,
-    description: 'Premium ta\'mirlangan xonadon, barcha zamonaviy texnika bilan jihozlangan.',
-    image: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-17T10:00:00.000Z',
-  },
-  {
-    id: '18',
-    title: "INHA talabalari uchun 3 kishilik xona",
-    type: 'Xonadosh',
-    price: 78,
-    university: 'INHA',
-    address: 'Mirzo Ulugbek tumani, Buyuk Ipak Yoli',
-    distance: '300 m',
-    phone: '+998 91 888 33 44',
-    rooms: 3,
-    verified: false,
-    description: 'Universitetga yaqin, transport qulay. O\'qish stoli va shkaf har bir talaba uchun alohida.',
-    image: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-18T10:00:00.000Z',
-  },
-  {
-    id: '19',
-    title: "TPTI yonida 1 xonali arzon studiya",
-    type: 'Xonadon',
-    price: 140,
-    university: 'TPTI',
-    address: 'Shayxontohur tumani, Labzak',
-    distance: '600 m',
-    phone: '+998 95 999 44 33',
-    rooms: 1,
-    verified: false,
-    description: 'Kichik va shinam studiya, yolg\'iz yashaydigan talabalar uchun juda mos.',
-    image: 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-19T10:00:00.000Z',
-  },
-  {
-    id: '20',
-    title: "TDIU qarshisida 2 xonali zamonaviy xonadon",
-    type: 'Xonadon',
-    price: 230,
-    university: 'TDIU',
-    address: 'Mirobod tumani, Oybek',
-    distance: '250 m',
-    phone: '+998 97 222 66 88',
-    rooms: 2,
-    verified: true,
-    description: 'Universitetga piyoda 3 daqiqa, to\'liq mebellangan va texnika bilan ta\'minlangan.',
-    image: 'https://images.unsplash.com/photo-1560184897-ae75f418493e?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-20T10:00:00.000Z',
-  },
-  {
-    id: '21',
-    title: "TATU yaqinida 2 xonali yevro-remont kvartira",
-    type: 'Xonadon',
-    price: 210,
-    university: 'TATU',
-    address: 'Yunusobod tumani, Bodomzor metro yonida',
-    distance: '320 m (5 min piyoda)',
-    phone: '+998 90 555 22 33',
-    rooms: 2,
-    verified: true,
-    description: 'To\'liq yevro-remont qilingan, oshxona texnikasi va mebel bilan jihozlangan kvartira.',
-    image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-21T10:00:00.000Z',
-  },
-  {
-    id: '22',
-    title: "O'zMU qarshisida keng 3 xonali kvartira",
-    type: 'Xonadon',
-    price: 270,
-    university: "O'zMU",
-    address: 'Olmazor tumani, Chilonzor ko\'chasi',
-    distance: '400 m (6 min piyoda)',
-    phone: '+998 93 444 11 22',
-    rooms: 3,
-    verified: true,
-    description: 'Keng xonalar, 2 ta balkon, yangi santexnika. Bir nechta talaba birgalikda ijaraga olishi mumkin.',
-    image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-22T10:00:00.000Z',
-  },
-  {
-    id: '23',
-    title: "TDTU (Politeh) yonida 1 xonali kvartira",
-    type: 'Xonadon',
-    price: 165,
-    university: 'TDTU',
-    address: 'Olmazor tumani, Talabalar shaharchasi',
-    distance: '280 m (4 min piyoda)',
-    phone: '+998 99 222 55 66',
-    rooms: 1,
-    verified: true,
-    description: 'Kichik va shinam, alohida yashash uchun qulay. Konditsioner va muzlatgich mavjud.',
-    image: 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-23T10:00:00.000Z',
-  },
-  {
-    id: '24',
-    title: "TDIU yonida 2 xonali zamonaviy kvartira",
-    type: 'Xonadon',
-    price: 225,
-    university: 'TDIU',
-    address: 'Mirobod tumani, Oybek metro yaqinida',
-    distance: '380 m (5 min piyoda)',
-    phone: '+998 97 888 11 44',
-    rooms: 2,
-    verified: true,
-    description: 'Yangi binoda, lift va parking mavjud. Universitetgacha piyoda 5 daqiqa.',
-    image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-24T10:00:00.000Z',
-  },
-  {
-    id: '25',
-    title: "WIUT yaqinida 1 xonali biznes-klass studiya",
-    type: 'Xonadon',
-    price: 330,
-    university: 'WIUT',
-    address: 'Yashnobod tumani, Amir Temur maydoni',
-    distance: '180 m (3 min piyoda)',
-    phone: '+998 94 777 33 22',
-    rooms: 1,
-    verified: true,
-    description: 'Yuqori toifadagi studiya, to\'liq texnika bilan jihozlangan. Xavfsizlik doim faol.',
-    image: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-25T10:00:00.000Z',
-  },
-  {
-    id: '26',
-    title: "INHA yaqinida 2 xonali yorug' kvartira",
-    type: 'Xonadon',
-    price: 250,
-    university: 'INHA',
-    address: 'Mirzo Ulugbek tumani, Buyuk Ipak Yoli',
-    distance: '220 m (3 min piyoda)',
-    phone: '+998 91 333 66 77',
-    rooms: 2,
-    verified: false,
-    description: 'Quyosh nuriga boy, keng derazali kvartira. Metro va avtobus bekati yaqin.',
-    image: 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-26T10:00:00.000Z',
-  },
-  {
-    id: '27',
-    title: "TPTI (Toshmi) yonida 1 xonali kvartira",
-    type: 'Xonadon',
-    price: 155,
-    university: 'TPTI',
-    address: 'Shayxontohur tumani, Chorsu yaqinida',
-    distance: '340 m (5 min piyoda)',
-    phone: '+998 95 222 88 99',
-    rooms: 1,
-    verified: true,
-    description: 'Markazga yaqin, transport qatnovi qulay, ijaraga arzon narxda beriladi.',
-    image: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-27T10:00:00.000Z',
-  },
-  {
-    id: '28',
-    title: "TATU shaharchasi yaqinida 3 xonali oilaviy kvartira",
-    type: 'Xonadon',
-    price: 290,
-    university: 'TATU',
-    address: 'Yunusobod 4-mavze',
-    distance: '470 m (7 min piyoda)',
-    phone: '+998 90 111 77 88',
-    rooms: 3,
-    verified: true,
-    description: 'Katta oilalar yoki bir nechta talaba uchun mo\'ljallangan keng kvartira.',
-    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80',
-    createdAt: '2026-01-28T10:00:00.000Z',
   }
 ];
 
@@ -489,7 +192,7 @@ mock.onDelete(/\/listings\/\w+/).reply((config) => {
 
 const queryClient = new QueryClient();
 
-// React Query Hooks
+
 function useFetchListings() {
   return useQuery({
     queryKey: ['listings'],
@@ -527,7 +230,7 @@ function useRemoveListing() {
   });
 }
 
-
+// Tarjima so'zlari
 const translations = {
   uz: {
     home: 'Bosh sahifa',
@@ -561,7 +264,16 @@ const translations = {
     descLabel: "Tavsif",
     submitBtn: "E'lonni joylash",
     deleteBtn: "E'lonni o'chirish",
-    locationOnMap: "Joylashuv xaritasi"
+    locationOnMap: "Joylashuv xaritasi",
+    loginTitle: "Xush kelibsiz!",
+    loginSub: "Davom etish uchun telefon raqami va parolingizni kiriting",
+    passwordLabel: "Parol",
+    loginBtn: "Kirish",
+    loggingIn: "Tekshirilmoqda...",
+    phoneRequired: "Telefon raqami kiritilishi shart!",
+    passwordRequired: "Parol kiritilishi shart!",
+    passwordMin: "Parol kamida 4 ta belgidan iborat bo'lishi kerak",
+    logoutBtn: "Chiqish"
   },
   en: {
     home: 'Home',
@@ -595,7 +307,16 @@ const translations = {
     descLabel: 'Description',
     submitBtn: 'Submit Listing',
     deleteBtn: 'Delete Listing',
-    locationOnMap: "Location Map"
+    locationOnMap: "Location Map",
+    loginTitle: "Welcome!",
+    loginSub: "Enter your phone number and password to continue",
+    passwordLabel: "Password",
+    loginBtn: "Sign In",
+    loggingIn: "Checking...",
+    phoneRequired: "Phone number is required!",
+    passwordRequired: "Password is required!",
+    passwordMin: "Password must be at least 4 characters",
+    logoutBtn: "Log out"
   },
   ru: {
     home: 'Главная',
@@ -629,7 +350,16 @@ const translations = {
     descLabel: 'Описание',
     submitBtn: 'Опубликовать',
     deleteBtn: 'Удалить объявление',
-    locationOnMap: "Карта расположения"
+    locationOnMap: "Карта расположения",
+    loginTitle: "Добро пожаловать!",
+    loginSub: "Введите номер телефона и пароль, чтобы продолжить",
+    passwordLabel: "Пароль",
+    loginBtn: "Войти",
+    loggingIn: "Проверка...",
+    phoneRequired: "Введите номер телефона!",
+    passwordRequired: "Введите пароль!",
+    passwordMin: "Пароль должен содержать минимум 4 символа",
+    logoutBtn: "Выйти"
   }
 };
 
@@ -637,6 +367,12 @@ const translations = {
 const useStore = create(
   persist(
     (set, get) => ({
+
+      isAuthenticated: false,
+      userPhone: null,
+      login: (phone) => set({ isAuthenticated: true, userPhone: phone }),
+      logout: () => set({ isAuthenticated: false, userPhone: null }),
+
       darkMode: false,
       toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
 
@@ -684,9 +420,108 @@ const useStore = create(
 
 const universitiesList = ['Barchasi', 'TATU', "O'zMU", 'TDTU', 'TDIU', 'WIUT', 'INHA', 'TPTI'];
 
+function Login() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { login, t, darkMode, toggleDarkMode } = useStore();
+  const [showPassword, setShowPassword] = useState(false);
+  const [isChecking, setIsChecking] = useState(false);
+
+  useLayoutEffect(() => {
+    document.documentElement.classList.toggle('dark', darkMode);
+  }, [darkMode]);
+
+  const onSubmit = (formData) => {
+    setIsChecking(true);
+
+    setTimeout(() => {
+      setIsChecking(false);
+      login(formData.phone);
+      toast.success("Xush kelibsiz!");
+    }, 600);
+  };
+
+  return (
+    <div className="relative min-h-screen flex items-center justify-center bg-sky-900 px-4 py-10 overflow-hidden">
+      <svg className="absolute inset-0 w-full h-full opacity-[0.07]" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <pattern id="tileGridLogin" width="56" height="56" patternUnits="userSpaceOnUse">
+          <path d="M28 0 L56 28 L28 56 L0 28 Z" fill="none" stroke="white" strokeWidth="1" />
+        </pattern>
+        <rect width="100%" height="100%" fill="url(#tileGridLogin)" />
+      </svg>
+
+      <button
+        onClick={toggleDarkMode}
+        className="absolute top-4 right-4 p-2.5 rounded-lg bg-white/10 border border-white/20 text-white hover:bg-white/20 transition z-10"
+      >
+        {darkMode ? <Sun className="w-4 h-4 text-amber-300" /> : <Moon className="w-4 h-4" />}
+      </button>
+
+      <div className="relative z-10 w-full max-w-sm bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl border border-white/10">
+        <div className="flex flex-col items-center text-center mb-6">
+          <div className="w-11 h-11 bg-sky-600 rounded-lg text-white flex items-center justify-center font-serif text-xl font-bold mb-4">
+            T
+          </div>
+          <h1 className="text-xl font-serif font-bold text-slate-800 dark:text-white">{t('loginTitle')}</h1>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t('loginSub')}</p>
+        </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">{t('phoneLabel')}</label>
+            <div className="relative">
+              <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="+998 90 123 45 67"
+                autoComplete="tel"
+                {...register('phone', { required: t('phoneRequired') })}
+                className="w-full pl-9 pr-3 p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500"
+              />
+            </div>
+            {errors.phone && <span className="text-[10px] text-rose-500 font-bold">{errors.phone.message}</span>}
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">{t('passwordLabel')}</label>
+            <div className="relative">
+              <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="••••••••"
+                autoComplete="current-password"
+                {...register('password', {
+                  required: t('passwordRequired'),
+                  minLength: { value: 4, message: t('passwordMin') }
+                })}
+                className="w-full pl-9 pr-9 p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-sky-500"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              >
+                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
+            {errors.password && <span className="text-[10px] text-rose-500 font-bold">{errors.password.message}</span>}
+          </div>
+
+          <button
+            type="submit"
+            disabled={isChecking}
+            className="w-full py-3 bg-sky-600 hover:bg-sky-700 disabled:opacity-60 text-white font-bold text-xs rounded-xl shadow-lg transition"
+          >
+            {isChecking ? t('loggingIn') : t('loginBtn')}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 
 function Navbar() {
-  const { darkMode, toggleDarkMode, lang, setLang, favorites, t } = useStore();
+  const { darkMode, toggleDarkMode, lang, setLang, favorites, t, userPhone, logout } = useStore();
 
   const changeLang = () => {
     if (lang === 'uz') setLang('en');
@@ -694,16 +529,22 @@ function Navbar() {
     else setLang('uz');
   };
 
+  const handleLogout = () => {
+    if (window.confirm("Rostdan ham chiqmoqchimisiz?")) {
+      logout();
+    }
+  };
+
   return (
     <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3 group">
-          <div className="p-2.5 bg-gradient-to-tr from-sky-600 to-indigo-600 rounded-2xl text-white shadow-md group-hover:scale-105 transition-transform">
-            <Building2 className="w-5 h-5" />
+          <div className="w-9 h-9 bg-sky-600 rounded-lg text-white shadow-sm flex items-center justify-center font-serif text-lg font-bold group-hover:bg-sky-700 transition-colors">
+            T
           </div>
           <div>
-            <span className="text-xl font-black bg-gradient-to-r from-sky-600 to-indigo-600 bg-clip-text text-transparent">TalabaUy</span>
-            <span className="block text-[10px] text-slate-500 dark:text-slate-400 font-bold tracking-wider uppercase">Toshkent Portal</span>
+            <span className="text-lg font-serif font-bold text-slate-900 dark:text-white leading-none">TalabaUy</span>
+            <span className="block text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Toshkent talabalar portali</span>
           </div>
         </Link>
 
@@ -711,9 +552,9 @@ function Navbar() {
           <NavLink to="/" className={({ isActive }) => `hidden sm:flex items-center gap-2 text-xs font-semibold px-3.5 py-2 rounded-xl transition ${isActive ? 'text-sky-600 bg-sky-50 dark:bg-sky-950/60' : 'text-slate-600 dark:text-slate-300 hover:text-sky-600'}`}>
             <HomeIcon className="w-4 h-4" /> <span>{t('home')}</span>
           </NavLink>
-          <NavLink to="/favorites" className={({ isActive }) => `relative flex items-center gap-2 text-xs font-semibold px-3.5 py-2 rounded-xl transition ${isActive ? 'text-sky-600 bg-sky-50 dark:bg-sky-950/60' : 'text-slate-600 dark:text-slate-300 hover:text-sky-600'}`}>
+          <NavLink to="/favorites" className={({ isActive }) => `hidden sm:flex relative items-center gap-2 text-xs font-semibold px-3.5 py-2 rounded-xl transition ${isActive ? 'text-sky-600 bg-sky-50 dark:bg-sky-950/60' : 'text-slate-600 dark:text-slate-300 hover:text-sky-600'}`}>
             <Heart className="w-4 h-4 text-rose-500" />
-            <span className="hidden sm:inline">{t('favorites')}</span>
+            <span>{t('favorites')}</span>
             {favorites.length > 0 && <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-rose-500 text-white">{favorites.length}</span>}
           </NavLink>
           <NavLink to="/add" className={({ isActive }) => `hidden sm:flex items-center gap-2 text-xs font-semibold px-3.5 py-2 rounded-xl transition ${isActive ? 'text-sky-600 bg-sky-50 dark:bg-sky-950/60' : 'text-slate-600 dark:text-slate-300 hover:text-sky-600'}`}>
@@ -726,6 +567,13 @@ function Navbar() {
             </button>
             <button onClick={toggleDarkMode} className="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition">
               {darkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-700" />}
+            </button>
+            <button
+              onClick={handleLogout}
+              title={userPhone ? `${userPhone} — ${t('logoutBtn')}` : t('logoutBtn')}
+              className="p-2 text-slate-600 dark:text-slate-300 hover:bg-rose-50 hover:text-rose-600 dark:hover:bg-rose-950/40 dark:hover:text-rose-400 rounded-xl transition"
+            >
+              <LogOut className="w-4 h-4" />
             </button>
           </div>
         </nav>
@@ -767,43 +615,45 @@ function ListingCard({ item }) {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      className="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700/80 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
+      className="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700/80 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
     >
       <div>
         <div className="relative h-52 bg-slate-100 dark:bg-slate-700 overflow-hidden">
           <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-          <div className="absolute top-3 left-3 flex gap-2">
-            <span className="px-3 py-1 text-xs font-bold rounded-full bg-sky-600/90 text-white backdrop-blur-md shadow-md">{item.type}</span>
-            {item.verified && (
-              <span className="px-3 py-1 text-xs font-bold rounded-full bg-emerald-500/90 text-white backdrop-blur-md flex items-center gap-1 shadow-md">
-                <CheckCircle2 className="w-3.5 h-3.5" /> Tasdiqlangan
-              </span>
-            )}
-          </div>
           <button
             onClick={() => toggleFavorite(item.id)}
-            className="absolute top-3 right-3 p-2.5 rounded-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-md hover:scale-110 transition-transform"
+            className="absolute top-3 right-3 p-2.5 rounded-lg bg-white/85 dark:bg-slate-900/85 backdrop-blur-sm shadow-sm hover:scale-105 transition-transform"
           >
             <Heart className={`w-4 h-4 ${isFav ? 'fill-rose-500 text-rose-500' : 'text-slate-600 dark:text-slate-200'}`} />
           </button>
         </div>
         <div className="p-5">
-          <div className="flex items-center justify-between text-xs font-bold text-sky-600 dark:text-sky-400 mb-2">
-            <span className="flex items-center gap-1 truncate"><GraduationCap className="w-4 h-4 shrink-0" /> {item.university} ({item.distance || 'Yaqinida'})</span>
-            <span className="px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px]">{item.rooms} xona</span>
+          <div className="flex items-center gap-1.5 text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-2 flex-wrap">
+            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${item.type === 'Xonadon' ? 'bg-sky-600' : 'bg-terracotta-500'}`} />
+            <span>{item.type}</span>
+            <span className="text-slate-300 dark:text-slate-600">·</span>
+            <span className="flex items-center gap-1 truncate"><GraduationCap className="w-3.5 h-3.5 shrink-0" /> {item.university}</span>
+            {item.verified && (
+              <>
+                <span className="text-slate-300 dark:text-slate-600">·</span>
+                <span className="flex items-center gap-1 text-sky-600 dark:text-sky-400 shrink-0">
+                  <CheckCircle2 className="w-3.5 h-3.5" /> Tasdiqlangan
+                </span>
+              </>
+            )}
           </div>
-          <h3 className="text-base font-extrabold text-slate-800 dark:text-slate-100 line-clamp-1 mb-2 group-hover:text-sky-600 transition-colors">{item.title}</h3>
+          <h3 className="text-base font-serif font-bold text-slate-800 dark:text-slate-100 line-clamp-1 mb-2 group-hover:text-sky-600 transition-colors">{item.title}</h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1 mb-4">
-            <MapPin className="w-3.5 h-3.5 shrink-0 text-slate-400" /> <span className="truncate">{item.address}</span>
+            <MapPin className="w-3.5 h-3.5 shrink-0 text-slate-400" /> <span className="truncate">{item.address} · {item.rooms} xona · {item.distance || 'Yaqinida'}</span>
           </p>
         </div>
       </div>
       <div className="px-5 pb-5 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between">
         <div>
-          <span className="text-2xl font-black text-slate-900 dark:text-white">${item.price}</span>
+          <span className="text-2xl font-serif font-bold text-slate-900 dark:text-white">${item.price}</span>
           <span className="text-xs text-slate-400 font-medium"> / {t('monthly')}</span>
         </div>
-        <Link to={`/listing/${item.id}`} className="px-4 py-2 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 rounded-xl transition shadow-md shadow-sky-500/20 flex items-center gap-1">
+        <Link to={`/listing/${item.id}`} className="px-4 py-2 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 rounded-lg transition flex items-center gap-1">
           {t('details')} <ChevronRight className="w-3.5 h-3.5" />
         </Link>
       </div>
@@ -816,7 +666,7 @@ function SkeletonLoader() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {[1, 2, 3, 4, 5, 6].map((i) => (
-        <div key={i} className="bg-white dark:bg-slate-800 rounded-3xl p-4 border border-slate-200 dark:border-slate-700 animate-pulse">
+        <div key={i} className="bg-white dark:bg-slate-800 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 animate-pulse">
           <div className="h-48 bg-slate-200 dark:bg-slate-700 rounded-2xl mb-4" />
           <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded-lg w-1/3 mb-2" />
           <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded-lg w-3/4 mb-4" />
@@ -826,6 +676,7 @@ function SkeletonLoader() {
     </div>
   );
 }
+
 
 function Home() {
   const { data: listings = [], isLoading, isError, refetch } = useFetchListings();
@@ -854,14 +705,19 @@ function Home() {
   return (
     <div className="min-h-screen pb-28 sm:pb-20 bg-slate-50 dark:bg-slate-900 transition-colors">
 
-      <section className="bg-gradient-to-br from-sky-600 via-indigo-600 to-slate-900 text-white py-10 sm:py-16 px-4 text-center shadow-lg relative overflow-hidden">
+      <section className="relative bg-sky-900 text-white py-14 sm:py-20 px-4 text-center overflow-hidden">
+
+        <svg className="absolute inset-0 w-full h-full opacity-[0.07]" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <pattern id="tileGrid" width="56" height="56" patternUnits="userSpaceOnUse">
+            <path d="M28 0 L56 28 L28 56 L0 28 Z" fill="none" stroke="white" strokeWidth="1" />
+          </pattern>
+          <rect width="100%" height="100%" fill="url(#tileGrid)" />
+        </svg>
         <div className="max-w-3xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-sky-200 text-xs font-semibold mb-4 backdrop-blur-md">
-            <Sparkles className="w-4 h-4 text-amber-300" /> Toshkent Talabalar Portal platformasi
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight mb-4 leading-tight">{t('heroTitle')}</h1>
+          <p className="text-sky-200 text-xs font-medium mb-3">Toshkentdagi oliygohlar uchun</p>
+          <h1 className="font-serif text-3xl sm:text-5xl font-normal tracking-tight mb-4 leading-tight">{t('heroTitle')}</h1>
           <p className="text-slate-200 text-xs sm:text-sm max-w-xl mx-auto mb-8 leading-relaxed">{t('heroSub')}</p>
-          <div className="max-w-xl mx-auto bg-white dark:bg-slate-800 p-2 rounded-2xl shadow-2xl flex items-center border border-slate-200 dark:border-slate-700">
+          <div className="max-w-xl mx-auto bg-white dark:bg-slate-800 p-2 rounded-xl shadow-xl flex items-center border border-slate-200 dark:border-slate-700">
             <Search className="w-5 h-5 text-slate-400 ml-3 shrink-0" />
             <input
               type="text"
@@ -881,7 +737,7 @@ function Home() {
 
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 -mt-6 relative z-10">
-        <div className="bg-white dark:bg-slate-800 rounded-3xl p-5 border border-slate-200 dark:border-slate-700 mb-8 shadow-xl">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 mb-8 shadow-xl">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2 text-slate-800 dark:text-slate-100 font-extrabold text-sm">
               <SlidersHorizontal className="w-4 h-4 text-sky-600" /> {t('filters')}
@@ -932,6 +788,7 @@ function Home() {
           </div>
         </div>
 
+
         {isLoading ? (
           <SkeletonLoader />
         ) : isError ? (
@@ -947,7 +804,7 @@ function Home() {
             </AnimatePresence>
           </div>
         ) : (
-          <div className="text-center py-16 bg-white dark:bg-slate-800 rounded-3xl border border-dashed border-slate-300 dark:border-slate-700">
+          <div className="text-center py-16 bg-white dark:bg-slate-800 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700">
             <Filter className="w-12 h-12 text-slate-400 mx-auto mb-3" />
             <h3 className="text-base font-bold text-slate-700 dark:text-slate-300">{t('notFound')}</h3>
           </div>
@@ -957,7 +814,7 @@ function Home() {
   );
 }
 
-// Batafsil Ko'rish Sahifasi
+
 function ListingDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -984,7 +841,7 @@ function ListingDetail() {
           <ArrowLeft className="w-4 h-4" /> Ortga qaytish
         </button>
 
-        <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-xl overflow-hidden">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xl overflow-hidden">
           <div className="relative h-72 sm:h-96 bg-slate-900">
             <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
             <div className="absolute top-4 left-4 flex gap-2">
@@ -1003,13 +860,13 @@ function ListingDetail() {
                 <span className="inline-flex items-center gap-1.5 text-xs font-bold text-sky-600 dark:text-sky-400 mb-2">
                   <GraduationCap className="w-4 h-4" /> {item.university} yaqinida ({item.distance})
                 </span>
-                <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">{item.title}</h1>
+                <h1 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 dark:text-white">{item.title}</h1>
                 <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1.5 mt-2">
                   <MapPin className="w-4 h-4 text-slate-400" /> {item.address}
                 </p>
               </div>
               <div className="text-left md:text-right">
-                <span className="text-3xl font-black text-slate-900 dark:text-white">${item.price}</span>
+                <span className="text-3xl font-serif font-bold text-slate-900 dark:text-white">${item.price}</span>
                 <span className="text-xs text-slate-400 font-medium"> / {t('monthly')}</span>
                 <a href={`tel:${item.phone}`} className="mt-3 flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-2xl shadow-lg shadow-emerald-600/20 transition">
                   <Phone className="w-4 h-4" /> {t('call')}
@@ -1080,12 +937,12 @@ function AddListing() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-10 px-4 pb-28 sm:pb-10 transition-colors">
-      <div className="max-w-xl mx-auto bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-700 shadow-xl">
+      <div className="max-w-xl mx-auto bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-700 shadow-xl">
         <button onClick={() => navigate(-1)} className="flex items-center gap-1 text-xs font-bold text-sky-600 mb-6">
           <ArrowLeft className="w-4 h-4" /> Ortga qaytish
         </button>
 
-        <h2 className="text-xl font-black text-slate-800 dark:text-white mb-6">{t('addTitle')}</h2>
+        <h2 className="text-xl font-serif font-bold text-slate-800 dark:text-white mb-6">{t('addTitle')}</h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
@@ -1184,7 +1041,7 @@ function Favorites() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-10 px-4 sm:px-6 pb-28 sm:pb-10 transition-colors">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-2xl font-black text-slate-800 dark:text-white mb-6 flex items-center gap-2">
+        <h1 className="text-2xl font-serif font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">
           <Heart className="w-6 h-6 text-rose-500 fill-rose-500" /> {t('favorites')}
         </h1>
         {favListings.length > 0 ? (
@@ -1192,7 +1049,7 @@ function Favorites() {
             {favListings.map((item) => <ListingCard key={item.id} item={item} />)}
           </div>
         ) : (
-          <div className="text-center py-16 bg-white dark:bg-slate-800 rounded-3xl border border-dashed border-slate-300 dark:border-slate-700">
+          <div className="text-center py-16 bg-white dark:bg-slate-800 rounded-2xl border border-dashed border-slate-300 dark:border-slate-700">
             <Heart className="w-12 h-12 text-slate-300 mx-auto mb-3" />
             <h3 className="text-base font-bold text-slate-600 dark:text-slate-400">Hozircha saralangan uylar yo'q</h3>
           </div>
@@ -1205,9 +1062,22 @@ function Favorites() {
 
 export default function App() {
   const darkMode = useStore((state) => state.darkMode);
+  const isAuthenticated = useStore((state) => state.isAuthenticated);
+
+
   useLayoutEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode);
   }, [darkMode]);
+
+
+  if (!isAuthenticated) {
+    return (
+      <>
+        <Login />
+        <Toaster position="bottom-right" />
+      </>
+    );
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
